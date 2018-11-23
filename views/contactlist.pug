@@ -1,0 +1,16 @@
+extends layout
+block content
+ each val in data
+  .row
+   .col-6
+    .card.blue-grey
+     .card-content.-text
+      .card-title
+       span.card-title Saved Data.!
+        nav
+         ul
+          li
+           a(href='deleteData?id='+val._id) DELETE
+      p Name:#{val.name}
+      p Publisher:#{val.phoneNo}
+      

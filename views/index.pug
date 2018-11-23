@@ -7,5 +7,16 @@ block content
     a(href='getAllHeros')  GET HEROES
   h1= title
   p Superpowers, don't always make you a superhero
-  
+  form(action='saveData' method='get')
+   .row
+    .input-field.col.s6
+     label(for='name') Name
+     input#name.validate(type='text', name='name')
+   .row
+    .input-field.col.s6
+     label(for='phoneNo') Phoneno
+     input#phoneNo.validate(type='text', name='phoneNo') 
+   
+   .row
+    button.btn(type='Submit') Go
  

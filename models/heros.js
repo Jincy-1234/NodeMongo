@@ -1,22 +1,128 @@
 var express = require('express');
-var JSONData = require('./heros.json');
+//var JSONData = require('./heros.json');
 var fs = require("fs");
 
-const mysql=require('mysql2'); 
-let Heros= {}
+const mongoose = require('mongoose');
+
+let Contact= {}
+//var urlstring=mongoose.connect('mongodb://127.0.0.1:27017/myDb');
+
+const Schema = mongoose.Schema;
+const ObjectId = Schema.ObjectId;
+
+
+const Contactdb = new Schema({
+	id: ObjectId,
+  name: String,
+  phoneNo: String
+});
+
+const ContactModel = mongoose.model('contact',Contactdb);
+
+Contact.getAll = function(){
+	return new Promise(function(resolve,reject){ 
+		const connection = mongoose.connect('mongodb://127.0.0.1:27017/myDb');
+		console.log(connection);
+		ContactModel.find({},function(err,contact){
+			if (err) {
+				console.log(err);
+				console.log('ERR :: fetching data from database..');
+				reject();
+			}
+			else {
+				
+				console.log(contact);
+
+				resolve(contact);
+			}
+});
+		});
+
+}
+
+Contact.saveData = function(newHeroData){
+	return new Promise(function(resolve,reject){ 
+		const connection = mongoose.connect('mongodb://127.0.0.1:27017/myDb');
+		console.log(connection);
+
+		var newUser = ContactModel({
+  				name:`${newHeroData.name}`,
+  				phoneNo:`${newHeroData.phoneNo}`
+			});
+
+			newUser.save({},function(err,contact){
+			if (err) {
+				console.log(err);
+				console.log('ERR :: fetching data from database..');
+				reject();
+			}
+			else {
+				
+				console.log(contact);
+
+				resolve(contact);
+			}
+		});
+		
+		});
+
+}
+
+Contact.deleteAll = function(newData){
+	return new Promise(function(resolve,reject){ 
+		const connection = mongoose.connect('mongodb://127.0.0.1:27017/myDb');
+		console.log(connection);
+
+	var deleteUser = ContactModel({
+  			_id:`${newData._id}`
+  				
+			});
+
+
+			newUser.remove({},function(err,contact){
+			if (err) {
+				console.log(err);
+				console.log('ERR :: fetching data from database..');
+				reject();
+			}
+			else {
+				
+				console.log(contact);
+
+				resolve(contact);
+			}
+		});
+		
+		});
+
+}
+
+module.exports = Contact;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*Heros.getAll = function(){
-    return JSONData}
-Heros.saveNew = function(newHeroData){
-    JSONData.push(newHeroData);
-    fs.writeFile('./heros.json', JSONData, function(err) {
-        if(err){
-            console.lgo('ERR.')
-        }   
-    })
-}*/
-
-
-Heros.getAll = function(){
 	return new Promise(function(resolve,reject){ 
   		const connection = mysql.createConnection({
  	 	host: 'localhost',
@@ -43,6 +149,8 @@ Heros.getAll = function(){
 	
 	});
 }
+
+
 
 Heros.saveNew = function(newHeroData){
 	return new Promise(function(resolve,reject){ 
@@ -152,5 +260,4 @@ Heros.updateAll = function(newHeroData){
 	});
 	
 	});
-    }
-module.exports = Heros;
+    }*/

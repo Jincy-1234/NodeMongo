@@ -12,7 +12,7 @@ const ObjectId = Schema.ObjectId;
 
 
 const Contactdb = new Schema({
-	id: ObjectId,
+  //id: ObjectId,
   name: String,
   phoneNo: String
 });
@@ -40,6 +40,26 @@ Contact.getAll = function(){
 
 }
 
+Contact.getSingle = function(newData){
+	return new Promise(function(resolve,reject){ 
+		const connection = mongoose.connect('mongodb://127.0.0.1:27017/myDb');
+		console.log(connection);
+		ContactModel.find({_id: `${newData._id}`},function(err,contact){
+			if (err) {
+				console.log(err);
+				console.log('ERR :: fetching data from database..');
+				reject();
+			}
+			else {
+				
+				console.log(contact);
+
+				resolve(contact);
+			}
+});
+		});
+
+}
 Contact.saveData = function(newHeroData){
 	return new Promise(function(resolve,reject){ 
 		const connection = mongoose.connect('mongodb://127.0.0.1:27017/myDb');
@@ -71,15 +91,12 @@ Contact.saveData = function(newHeroData){
 Contact.deleteAll = function(newData){
 	return new Promise(function(resolve,reject){ 
 		const connection = mongoose.connect('mongodb://127.0.0.1:27017/myDb');
-		console.log(connection);
-
-	var deleteUser = ContactModel({
-  			_id:`${newData._id}`
-  				
-			});
+		console.log(`${newData.name}`);
+		  console.log(connection);
+	
 
 
-			newUser.remove({},function(err,contact){
+			 ContactModel.findOneAndRemove({name :`${newData.name}`}, function(err,contact){
 			if (err) {
 				console.log(err);
 				console.log('ERR :: fetching data from database..');
@@ -97,8 +114,35 @@ Contact.deleteAll = function(newData){
 
 }
 
-module.exports = Contact;
 
+
+
+
+Contact.updateAll = function(newData){
+	return new Promise(function(resolve,reject){ 
+		const connection = mongoose.connect('mongodb://127.0.0.1:27017/myDb');
+		
+			ContactModel.findOneAndUpdate({_id:`${newData._id}`},{name:`${newData.name}`,phoneNo:`${newData.phoneNo}`},function(err,contact){
+			if (err) {
+				console.log(err);
+				console.log('ERR :: fetching data from database..');
+				reject();
+			}
+			else {
+				
+				console.log(contact);
+				console.log('contact.......'+ contact);
+
+				resolve(contact);
+			}
+		});
+		
+		});
+
+}
+
+
+module.exports = Contact;
 
 
 

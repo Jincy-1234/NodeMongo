@@ -11,9 +11,9 @@ block content
         nav
          ul
           li
-           a(href='viewHeros?id='+val.id) VIEW
-           a(href='deleteData?id='+val.id) DELETE
-            a(href='UpdateData?id='+val.id) UPDATE
+           a(href='viewHeros?id='+val._id) VIEW
+           a(href='deleteData?id='+val._id) DELETE
+            a(href='update?id='+val._id) UPDATE
       p Real Name:#{val.alter_ego} 
       p Character:#{val.characters}
       p Id:#{val.id}
